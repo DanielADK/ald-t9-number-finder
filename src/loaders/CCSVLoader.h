@@ -4,9 +4,13 @@
 // Copyright (c) Daniel Adámek All rights reserved.
 //
 
-#include <fstream>
 #include "CPhoneLoader.h"
+#include <fstream>
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <array>
+#include "../exception/FileNotFoundException.h"
 
 class CCSVLoader: public CPhoneLoader {
 private:
