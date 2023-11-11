@@ -35,7 +35,7 @@ private:
     static std::string normalize(std::string_view str);
 
     /**
-     * Normalize string
+     * Normalize string to t9-like format
      * @param str
      * @return
      */
