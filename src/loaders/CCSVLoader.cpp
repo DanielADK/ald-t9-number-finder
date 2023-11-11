@@ -45,8 +45,8 @@ void CCSVLoader::load() {
 
     while (std::getline(file, line)) {
         std::istringstream stream(line);
-        std::string token;
-        std::string name, phoneNumber;
+        std::string name;
+        std::string phoneNumber;
 
         if (!std::getline(stream, name, delimiter)) continue; // Skip line if name is empty
         if (!std::getline(stream, phoneNumber, delimiter)) continue; // Skip line if phone is empty
