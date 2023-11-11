@@ -15,7 +15,15 @@ private:
     std::string message;
 
 public:
+    /**
+     * Constructor
+     * @param path
+     */
     explicit FileNotFoundException(std::string_view path);
+    /**
+     * Returns message
+     * @return
+     */
     [[nodiscard]] const char *what() const noexcept override;
 };
 
