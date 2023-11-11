@@ -9,9 +9,16 @@
 
 #include "CPhoneLoader.h"
 #include "CCSVLoader.h"
+#include "../exception/UnknownFileTypeException.h"
 #include <memory>
 
 class CPhoneLoaderFactory {
+public:
+    /**
+     * Factory method for creating loaders
+     * @param path
+     * @return
+     */
     static std::unique_ptr<CPhoneLoader> createLoader(const std::string& path);
 };
 

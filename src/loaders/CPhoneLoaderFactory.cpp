@@ -10,5 +10,5 @@ std::unique_ptr<CPhoneLoader> CPhoneLoaderFactory::createLoader(const std::strin
     if (path.substr(path.find_last_of('.') + 1) == "csv") {
         return std::make_unique<CCSVLoader>(path);
     }
-    throw std::invalid_argument("Unsupported file type");
+    throw UnknownFileTypeException("Unsupported file type");
 }
