@@ -15,4 +15,8 @@ add_executable(semestral2 main.cpp
         src/CContact.h
         src/CContact.cpp
         src/exception/UnknownFileTypeException.h
-        src/exception/UnknownFileTypeException.cpp)
+        src/exception/UnknownFileTypeException.cpp
+        src/user_interface/CUserInterface.h
+        src/user_interface/CUserInterface.cpp
+        src/CContactManager.h
+        src/CContactManager.cpp)
