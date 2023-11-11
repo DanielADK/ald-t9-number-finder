@@ -6,19 +6,9 @@
 
 #include "CPhoneLoader.h"
 
-CPhoneLoader::CPhoneLoader(const std::string &path) {
+CPhoneLoader::CPhoneLoader(std::string_view path) : m_Path(path) {}
 
-}
-
-void CPhoneLoader::loadFromFile() {
-
-}
-
-void CPhoneLoader::loadFromCSV() {
-
-}
-
-void CPhoneLoader::detectFileType() {
-
+const std::vector<CContact>& CPhoneLoader::export_contacts() const {
+    return m_Contacts;
 }
 
