@@ -23,7 +23,7 @@ public:
      * Returns message
      * @return
      */
-    [[nodiscard()]] const char *what() const noexcept override;
+    [[nodiscard]] const char *what() const noexcept override;
 };
 
 
