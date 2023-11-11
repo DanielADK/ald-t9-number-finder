@@ -18,7 +18,7 @@ private:
      * Detects delimiter in CSV file by counting occurrences of each delimiter in first line.
      * @return Detected delimiter
      */
-    char detectDelimiter();
+    [[nodiscard]] char detectDelimiter() const;
 public:
 /**
      * Constructor
@@ -27,7 +27,7 @@ public:
     explicit CCSVLoader(const std::string& path);
 
     /**
-     * Loads CSV file
+     * Loads CSV file into memory
      */
     void load() override;
 };

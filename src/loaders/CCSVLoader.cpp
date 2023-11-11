@@ -4,17 +4,16 @@
 // Copyright (c) Daniel Adámek All rights reserved.
 //
 
+#include <sstream>
 #include "CCSVLoader.h"
 
 
 CCSVLoader::CCSVLoader(const std::string &path) : CPhoneLoader(path) {}
 
-char CCSVLoader::detectDelimiter() {
+char CCSVLoader::detectDelimiter() const {
     std::ifstream file(m_Path, std::ios::in);
     // Check if file exists
-    if (!file.is_open()) {
-        throw FileNotFoundException(m_Path);
-    }
+    if (!file.is_open()) throw FileNotFoundException(m_Path);
 
     if (std::string line; std::getline(file, line)) {
         // Typical delimiters are: comma, semicolon, tab
@@ -36,6 +35,22 @@ char CCSVLoader::detectDelimiter() {
 
 
 void CCSVLoader::load() {
+    char delimiter = detectDelimiter();
 
+    std::ifstream file(m_Path, std::ios::in);
+    if (!file.is_open()) throw FileNotFoundException(m_Path);
+
+    std::string line;
+    std::getline(file, line); // Skip first line
+
+    while (std::getline(file, line)) {
+        std::istringstream stream(line);
+        std::string token;
+        std::vector<std::string> row;
+
+        while (std::getline(stream, token, delimiter)) row.push_back(token);
+    }
+
+    file.close();
 }
 
