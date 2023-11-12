@@ -11,6 +11,9 @@ retrieve contacts using partial T9 number sequences that correspond to the lette
 in their names. This is achieved through the use of a suffix tree that indexes
 the T9 representations for fast lookups.
 
+## Image
+![T9 Number Finder](example.png)
+
 ## Installation
 
 ### Using CMake
