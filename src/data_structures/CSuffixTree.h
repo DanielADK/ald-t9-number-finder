@@ -18,12 +18,31 @@ private:
 public:
     CSuffixTree();
 
-    void insertContact(std::shared_ptr<CContact> contact);
+    /**
+     * Insert contact into suffix tree
+     * @param contact
+     */
+    void insertContact(const std::shared_ptr<CContact>& contact);
 
+    /**
+     * Add suffix to contact
+     * @param suffix
+     * @param contact
+     */
     void addSuffix(std::string_view suffix, const std::shared_ptr<CContact>& contact);
 
+    /**
+     * Search contacts by query
+     * @param query
+     * @return
+     */
     [[nodiscard]] std::vector<std::shared_ptr<CContact>> search(std::string_view query) const;
 
+    /**
+     * Collect contacts from node
+     * @param node
+     * @param results
+     */
     void collectContacts(const std::shared_ptr<CSuffixNode>& node, std::vector<std::shared_ptr<CContact>>& results) const;
 };
 

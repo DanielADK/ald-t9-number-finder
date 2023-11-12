@@ -17,15 +17,18 @@
 class CContactManager {
 private:
     std::vector<std::shared_ptr<CContact>> m_Contacts;
-public:
     std::unique_ptr<CSuffixTree> m_SuffixTree;
+public:
 
     /**
      * Constructor
      */
     CContactManager();
 
-
+    /**
+     * Load contacts
+     * @param contacts
+     */
     void loadContacts(const std::vector<CContact>& contacts);
 
     /**

@@ -25,12 +25,30 @@ public:
     CSuffixNode();
     ~CSuffixNode() = default;
 
+    /**
+     * Set contact
+     * @param contact
+     */
     void setContact(std::shared_ptr<CContact> contact);
 
+    /**
+     * Get contact
+     * @return
+     */
     std::shared_ptr<CContact> getContact() const;
 
+    /**
+     * Get child by char
+     * @param c
+     * @return
+     */
     std::shared_ptr<CSuffixNode> getChild(char c) const;
 
+    /**
+     * Add child
+     * @param c
+     * @param child
+     */
     void addChild(char c, std::shared_ptr<CSuffixNode> child);
 };
 

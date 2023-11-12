@@ -23,11 +23,23 @@ void CSuffixTree::addSuffix(std::string_view suffix, const std::shared_ptr<CCont
     current->setContact(contact);
 }
 
-void CSuffixTree::insertContact(std::shared_ptr<CContact> contact) {
+void CSuffixTree::insertContact(const std::shared_ptr<CContact>& contact) {
     std::string_view t9rep = contact->getT9Representation();
-    for (int i = 0; i < (int)t9rep.size(); ++i) {
+    std::string_view name = contact->getName();
+    std::string_view phone = contact->getPhone();
+
+    // Add T9 representation into suffix tree
+    for (size_t i = 0; i < t9rep.size(); i++)
         addSuffix(t9rep.substr(i), contact);
-    }
+
+    // Add name into suffix tree
+    for (size_t i = 0; i < name.size(); i++)
+        addSuffix(name.substr(i), contact);
+
+    // Add phone into suffix tree
+    for (size_t i = 0; i < phone.size(); i++)
+        addSuffix(phone.substr(i), contact);
+
 }
 
 std::vector<std::shared_ptr<CContact>> CSuffixTree::search(std::string_view query) const {
