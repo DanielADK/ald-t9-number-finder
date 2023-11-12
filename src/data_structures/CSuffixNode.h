@@ -13,11 +13,13 @@
 #include <string_view>
 #include <memory>
 #include <string>
+#include "../CContact.h"
 
+template <typename T>
 class CSuffixNode {
 private:
     std::unordered_map<char, std::shared_ptr<CSuffixNode>> m_Children;
-    std::vector<int> m_Indexes;
+    std::vector<T> m_Data;
 
 public:
     CSuffixNode() = default;
@@ -28,10 +30,12 @@ public:
      * @param suffix
      * @param index
      */
-    void insert(std::string_view suffix, int index);
+    void insert(std::string_view suffix, const T& item);
 
-    std::vector<int> search(std::string_view query);
+    std::vector<T> search(std::string_view query);
 };
 
+template class CSuffixNode<int>;
+template class CSuffixNode<std::shared_ptr<CContact>>;
 
 #endif //SEMESTRAL2_CSUFFIXNODE_H

@@ -25,7 +25,7 @@ std::string vec_to_string(const std::vector<int>& vec) {
  */
 void test_suffix_tree() {
     // Test case 1: Inserting and searching for a suffix that is present
-    CSuffixTree tree;
+    CSuffixTree<int> tree;
     std::string test_string = "bazinga";
     tree.buildTree(test_string);
     std::string query1 = "inga";

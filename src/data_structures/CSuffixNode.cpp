@@ -6,31 +6,28 @@
 
 #include "CSuffixNode.h"
 
-void CSuffixNode::insert(std::string_view suffix, int index) {
-    m_Indexes.push_back(index);
-    if (suffix.length() > 0) {
+template <typename T>
+void CSuffixNode<T>::insert(std::string_view suffix, const T& item) {
+    if (suffix.empty()) {
+        m_Data.push_back(item);
+    } else {
         char current = suffix[0];
-        std::shared_ptr<CSuffixNode> child = nullptr;
-
-        // If there is no child with current char, create new one
         if (m_Children.find(current) == m_Children.end()) {
-            child = std::make_shared<CSuffixNode>();
-            m_Children[current] = child;
-        } else {
-            child = std::shared_ptr<CSuffixNode>(m_Children[current]);
+            m_Children[current] = std::make_shared<CSuffixNode<T>>();
         }
-        auto reminder = suffix.substr(1);
-        child->insert(reminder, index+1);
+        m_Children[current]->insert(suffix.substr(1), item);
     }
 }
 
-std::vector<int> CSuffixNode::search(std::string_view query) {
-    if (query.length() == 0) {
-        return m_Indexes;
+template<typename T>
+std::vector<T> CSuffixNode<T>::search(std::string_view query) {
+    if (query.empty()) {
+        return m_Data;
     } else {
         char current = query[0];
-        if (m_Children.find(current) != m_Children.end())
-            return m_Children[current]->search(query.substr(1));
+        auto it = m_Children.find(current);
+        if (it != m_Children.end())
+            return it->second->search(query.substr(1));
         else
             return {}; // Empty vector if there is no match
     }

@@ -8,18 +8,23 @@
 #define SEMESTRAL2_CSUFFIXTREE_H
 
 #include "CSuffixNode.h"
+#include "../CContact.h"
 #include <memory>
 
+template <typename T>
 class CSuffixTree {
 private:
-    std::shared_ptr<CSuffixNode> m_Root;
+    std::unique_ptr<CSuffixNode<T>> m_Root;
 
 public:
     CSuffixTree();
 
     void buildTree(std::string_view text);
-    std::vector<int> search(std::string_view query);
+    void insert(std::string_view text, const T& item);
+    std::vector<T> search(std::string_view query);
 };
 
+template class CSuffixTree<int>;
+template class CSuffixTree<std::shared_ptr<CContact>>;
 
 #endif //SEMESTRAL2_CSUFFIXTREE_H
