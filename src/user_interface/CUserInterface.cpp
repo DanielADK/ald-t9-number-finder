@@ -39,9 +39,9 @@ void CUserInterface::searchBar() {
 
         auto contacts = m_ContactManager.search(input);
         if (contacts.empty()) {
-            std::cout << "Nebyly nalezeny žádné kontakty.\n";
+            std::cout << "There are no contacts matching your query\n";
         } else {
-            std::cout << "Nalezené kontakty:\n";
+            std::cout << "Found contacts:\n";
             for (const auto& contact : contacts) {
                 printf("\t%-20s ( %9s )\n", contact->getName().c_str(), contact->getPhone().c_str());
             }
