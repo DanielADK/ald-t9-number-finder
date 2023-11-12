@@ -25,7 +25,8 @@ void CSuffixTree::addSuffix(std::string_view suffix, const std::shared_ptr<CCont
 
 void CSuffixTree::insertContact(const std::shared_ptr<CContact>& contact) {
     std::string_view t9rep = contact->getT9Representation();
-    std::string_view name = contact->getName();
+    std::string name = CContact::normalize(contact->getName());
+    std::string_view name_view = name;
     std::string_view phone = contact->getPhone();
 
     // Add T9 representation into suffix tree
@@ -33,8 +34,8 @@ void CSuffixTree::insertContact(const std::shared_ptr<CContact>& contact) {
         addSuffix(t9rep.substr(i), contact);
 
     // Add name into suffix tree
-    for (size_t i = 0; i < name.size(); i++)
-        addSuffix(name.substr(i), contact);
+    for (size_t i = 0; i < name_view.size(); i++)
+        addSuffix(name_view.substr(i), contact);
 
     // Add phone into suffix tree
     for (size_t i = 0; i < phone.size(); i++)
@@ -57,8 +58,9 @@ void
 CSuffixTree::collectContacts(const std::shared_ptr<CSuffixNode>& node, std::vector<std::shared_ptr<CContact>> &results) const {
     if (node->getContact() != nullptr) results.push_back(node->getContact());
 
-    for (char c = '0'; c <= '9'; c++) {
-        std::shared_ptr<CSuffixNode> child = node->getChild(c);
+    // Iterujeme přes všechny dětské uzly, nezávisle na znaku
+    for (const auto& pair : node->getChildren()) {
+        std::shared_ptr<CSuffixNode> child = pair.second;
         if (child) collectContacts(child, results);
     }
 }

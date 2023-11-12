@@ -27,3 +27,7 @@ void CSuffixNode::addChild(char c, std::shared_ptr<CSuffixNode> child) {
     m_Children[c] = std::move(child);
 }
 
+const std::unordered_map<char, std::shared_ptr<CSuffixNode>> &CSuffixNode::getChildren() const {
+    return m_Children;
+}
+

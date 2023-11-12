@@ -22,6 +22,6 @@ void CContactManager::loadContacts(const std::vector<CContact>& contacts) {
     }
 }
 
-std::vector<std::shared_ptr<CContact>> CContactManager::search(std::string_view query) {
-    return m_SuffixTree->search(query);
+std::vector<std::shared_ptr<CContact>> CContactManager::search(std::string_view query) const {
+    return m_SuffixTree->search(CContact::normalize(query));
 }

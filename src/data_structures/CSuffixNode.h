@@ -50,6 +50,12 @@ public:
      * @param child
      */
     void addChild(char c, std::shared_ptr<CSuffixNode> child);
+
+    /**
+     * Get node's children
+     * @return
+     */
+    const std::unordered_map<char, std::shared_ptr<CSuffixNode>>& getChildren() const;
 };
 
 #endif //SEMESTRAL2_CSUFFIXNODE_H
