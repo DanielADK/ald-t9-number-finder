@@ -21,10 +21,12 @@ public:
      */
     explicit CUserInterface(CContactManager& manager);
 
+    void loadContacts(const std::string& path);
+
     /**
      * Run user interface
      */
-    void run();
+    void searchBar();
 };
 
 

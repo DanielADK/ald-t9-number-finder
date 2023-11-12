@@ -5,10 +5,29 @@
 //
 
 #include "CUserInterface.h"
+#include "../loaders/CPhoneLoaderFactory.h"
 
 CUserInterface::CUserInterface(CContactManager &manager): m_ContactManager(manager) {}
 
-void CUserInterface::run() {
+void CUserInterface::loadContacts(const std::string &path) {
+    std::vector<CContact> contacts;
+    std::cout << "Loading contacts..." << std::endl;
+    try {
+        auto loader = CPhoneLoaderFactory::createLoader(path);
+        loader->load();
+        contacts = loader->export_contacts();
+
+        // load contacts to manager
+        m_ContactManager.loadContacts(contacts);
+
+    } catch (const UnknownFileTypeException& e) {
+        std::cerr << "Error: " <<  e.what() << std::endl;
+    }
+    std::cout << "Loaded: " << contacts.size() << " contacts" << std::endl;
+
+}
+
+void CUserInterface::searchBar() {
     std::string input;
     std::cout << "Welcome to the phone book!" << std::endl;
 
@@ -24,9 +43,8 @@ void CUserInterface::run() {
         } else {
             std::cout << "Nalezené kontakty:\n";
             for (const auto& contact : contacts) {
-                std::cout << "Jméno: " << contact.getName() << ", Telefon: " << contact.getPhone() << "\n";
+                printf("\t%-20s ( %9s )\n", contact->getName().c_str(), contact->getPhone().c_str());
             }
         }
     }
 }
-

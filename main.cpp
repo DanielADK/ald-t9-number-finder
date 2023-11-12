@@ -1,17 +1,15 @@
 #include <iostream>
 #include "src/loaders/CPhoneLoaderFactory.h"
+#include "src/user_interface/CUserInterface.h"
+#include "src/data_structures/CSuffixTree.h"
 
 int main() {
-    std::vector<CContact> contacts;
-    try {
-        std::string path = "../data/phones.csv";
-        auto loader = CPhoneLoaderFactory::createLoader(path);
-        loader->load();
-        contacts = loader->export_contacts();
+    auto manager = CContactManager();
+    auto ui = CUserInterface(manager);
 
-    } catch (const UnknownFileTypeException& e) {
-        std::cerr << "Error: " <<  e.what() << std::endl;
-    }
-    std::cout << contacts.size() << std::endl;
+    ui.loadContacts("../data/phones.csv");
+    ui.searchBar();
+
     return 0;
 }
+
