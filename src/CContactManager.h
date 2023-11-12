@@ -18,7 +18,7 @@ class CContactManager {
 private:
     std::vector<std::shared_ptr<CContact>> m_Contacts;
 public:
-    std::unique_ptr<CSuffixTree<std::shared_ptr<CContact>>> m_SuffixTree;
+    std::unique_ptr<CSuffixTree> m_SuffixTree;
 
     /**
      * Constructor

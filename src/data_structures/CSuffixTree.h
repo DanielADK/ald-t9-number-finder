@@ -11,20 +11,20 @@
 #include "../CContact.h"
 #include <memory>
 
-template <typename T>
 class CSuffixTree {
 private:
-    std::unique_ptr<CSuffixNode<T>> m_Root;
+    std::shared_ptr<CSuffixNode> m_Root;
 
 public:
     CSuffixTree();
 
-    void buildTree(std::string_view text);
-    void insert(std::string_view text, const T& item);
-    std::vector<T> search(std::string_view query);
-};
+    void insertContact(std::shared_ptr<CContact> contact);
 
-template class CSuffixTree<int>;
-template class CSuffixTree<std::shared_ptr<CContact>>;
+    void addSuffix(std::string_view suffix, const std::shared_ptr<CContact>& contact);
+
+    [[nodiscard]] std::vector<std::shared_ptr<CContact>> search(std::string_view query) const;
+
+    void collectContacts(const std::shared_ptr<CSuffixNode>& node, std::vector<std::shared_ptr<CContact>>& results) const;
+};
 
 #endif //SEMESTRAL2_CSUFFIXTREE_H

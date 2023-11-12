@@ -8,7 +8,7 @@
 
 
 CContactManager::CContactManager() {
-    m_SuffixTree = std::make_unique<CSuffixTree<std::shared_ptr<CContact>>>();
+    m_SuffixTree = std::make_unique<CSuffixTree>();
 }
 
 void CContactManager::loadContacts(const std::vector<CContact>& contacts) {
@@ -18,7 +18,7 @@ void CContactManager::loadContacts(const std::vector<CContact>& contacts) {
     for (const CContact& contact : contacts) {
         auto new_contact = std::make_shared<CContact>(contact);
         m_Contacts.push_back(new_contact);
-        m_SuffixTree->insert(contact.getT9Representation(), new_contact);
+        m_SuffixTree->insertContact(new_contact);
     }
 }
 

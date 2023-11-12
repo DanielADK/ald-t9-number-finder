@@ -6,29 +6,24 @@
 
 #include "CSuffixNode.h"
 
-template <typename T>
-void CSuffixNode<T>::insert(std::string_view suffix, const T& item) {
-    if (suffix.empty()) {
-        m_Data.push_back(item);
-    } else {
-        char current = suffix[0];
-        if (m_Children.find(current) == m_Children.end()) {
-            m_Children[current] = std::make_shared<CSuffixNode<T>>();
-        }
-        m_Children[current]->insert(suffix.substr(1), item);
-    }
+CSuffixNode::CSuffixNode(): m_Contact(nullptr) {}
+
+void CSuffixNode::setContact(std::shared_ptr<CContact> contact) {
+    m_Contact = std::move(contact);
 }
 
-template<typename T>
-std::vector<T> CSuffixNode<T>::search(std::string_view query) {
-    if (query.empty()) {
-        return m_Data;
-    } else {
-        char current = query[0];
-        auto it = m_Children.find(current);
-        if (it != m_Children.end())
-            return it->second->search(query.substr(1));
-        else
-            return {}; // Empty vector if there is no match
-    }
+std::shared_ptr<CContact> CSuffixNode::getContact() const {
+    return m_Contact;
 }
+
+std::shared_ptr<CSuffixNode> CSuffixNode::getChild(char c) const {
+    if (m_Children.find(c) != m_Children.end())
+        return m_Children.at(c);
+
+    return nullptr;
+}
+
+void CSuffixNode::addChild(char c, std::shared_ptr<CSuffixNode> child) {
+    m_Children[c] = std::move(child);
+}
+

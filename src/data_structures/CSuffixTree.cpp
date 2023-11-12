@@ -6,29 +6,48 @@
 
 #include "CSuffixTree.h"
 
-template<typename T>
-CSuffixTree<T>::CSuffixTree() {
-    m_Root = std::make_unique<CSuffixNode<T>>();
+CSuffixTree::CSuffixTree() {
+    m_Root = std::make_unique<CSuffixNode>();
 }
 
+void CSuffixTree::addSuffix(std::string_view suffix, const std::shared_ptr<CContact> &contact) {
+    std::shared_ptr<CSuffixNode> current = m_Root;
+    for (char c : suffix) {
+        std::shared_ptr<CSuffixNode> child =current->getChild(c);
+        if (!child) {
+            child = std::make_shared<CSuffixNode>();
+            current->addChild(c, child);
+        }
+        current = child;
+    }
+    current->setContact(contact);
+}
 
-template<>
-void CSuffixTree<int>::buildTree(std::string_view text) {
-    for (int i = 0; i < (int)text.length(); i++) {
-        std::string_view suffix = text.substr(i);
-        m_Root->insert(suffix, i);
+void CSuffixTree::insertContact(std::shared_ptr<CContact> contact) {
+    std::string_view t9rep = contact->getT9Representation();
+    for (int i = 0; i < (int)t9rep.size(); ++i) {
+        addSuffix(t9rep.substr(i), contact);
     }
 }
 
-
-template<typename T>
-std::vector<T> CSuffixTree<T>::search(std::string_view query) {
-    return m_Root->search(query);
+std::vector<std::shared_ptr<CContact>> CSuffixTree::search(std::string_view query) const {
+    std::vector<std::shared_ptr<CContact>> results;
+    std::shared_ptr<CSuffixNode> current = m_Root;
+    for (char c : query) {
+        current = current->getChild(c);
+        if (!current) return results;
+    }
+    collectContacts(current, results);
+    return results;
 }
 
+void
+CSuffixTree::collectContacts(const std::shared_ptr<CSuffixNode>& node, std::vector<std::shared_ptr<CContact>> &results) const {
+    if (node->getContact() != nullptr) results.push_back(node->getContact());
 
-template<typename T>
-void CSuffixTree<T>::insert(std::string_view text, const T &item) {
-    m_Root->insert(text, item);
+    for (char c = '0'; c <= '9'; c++) {
+        std::shared_ptr<CSuffixNode> child = node->getChild(c);
+        if (child) collectContacts(child, results);
+    }
 }
 
