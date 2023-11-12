@@ -10,7 +10,7 @@ CSuffixTree::CSuffixTree() {
     m_Root = std::make_unique<CSuffixNode>();
 }
 
-void CSuffixTree::addSuffix(std::string_view suffix, const std::shared_ptr<CContact> &contact) {
+void CSuffixTree::addSuffix(std::string_view suffix, const std::shared_ptr<CContact> &contact) const {
     std::shared_ptr<CSuffixNode> current = m_Root;
     for (char c : suffix) {
         std::shared_ptr<CSuffixNode> child =current->getChild(c);
@@ -43,8 +43,8 @@ void CSuffixTree::insertContact(const std::shared_ptr<CContact>& contact) {
 
 }
 
-std::vector<std::shared_ptr<CContact>> CSuffixTree::search(std::string_view query) const {
-    std::vector<std::shared_ptr<CContact>> results;
+std::unordered_set<std::shared_ptr<CContact>> CSuffixTree::search(std::string_view query) const {
+    std::unordered_set<std::shared_ptr<CContact>> results;
     std::shared_ptr<CSuffixNode> current = m_Root;
     for (char c : query) {
         current = current->getChild(c);
@@ -54,13 +54,12 @@ std::vector<std::shared_ptr<CContact>> CSuffixTree::search(std::string_view quer
     return results;
 }
 
-void
-CSuffixTree::collectContacts(const std::shared_ptr<CSuffixNode>& node, std::vector<std::shared_ptr<CContact>> &results) const {
-    if (node->getContact() != nullptr) results.push_back(node->getContact());
+void CSuffixTree::collectContacts(const std::shared_ptr<CSuffixNode>& node, std::unordered_set<std::shared_ptr<CContact>> &results) const {
+    if (node->getContact() != nullptr) results.insert(node->getContact());
 
-    // Iterujeme přes všechny dětské uzly, nezávisle na znaku
-    for (const auto& pair : node->getChildren()) {
-        std::shared_ptr<CSuffixNode> child = pair.second;
+    // Iterate over children and collect contacts
+    for (const auto& [c, child_node] : node->getChildren()) {
+        std::shared_ptr<CSuffixNode> child = child_node;
         if (child) collectContacts(child, results);
     }
 }

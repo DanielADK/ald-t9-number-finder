@@ -36,7 +36,7 @@ public:
      * @param query
      * @return
      */
-    [[nodiscard]] std::vector<std::shared_ptr<CContact>> search(std::string_view query) const;
+    [[nodiscard]] std::unordered_set<std::shared_ptr<CContact>> search(std::string_view query) const;
 };
 
 

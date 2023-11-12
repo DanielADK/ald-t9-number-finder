@@ -22,6 +22,16 @@ void CContactManager::loadContacts(const std::vector<CContact>& contacts) {
     }
 }
 
-std::vector<std::shared_ptr<CContact>> CContactManager::search(std::string_view query) const {
+std::unordered_set<std::shared_ptr<CContact>> CContactManager::search(std::string_view query) const {
+    // Detect if query is a number
+    bool is_number = true;
+    for (char c : query) {
+        if (!std::isdigit(c)) {
+            is_number = false;
+            break;
+        }
+    }
+    if (is_number)
+        return m_SuffixTree->search(query);
     return m_SuffixTree->search(CContact::normalize(query));
 }

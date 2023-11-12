@@ -9,6 +9,7 @@
 
 #include "CSuffixNode.h"
 #include "../CContact.h"
+#include <unordered_set>
 #include <memory>
 
 class CSuffixTree {
@@ -29,21 +30,21 @@ public:
      * @param suffix
      * @param contact
      */
-    void addSuffix(std::string_view suffix, const std::shared_ptr<CContact>& contact);
+    void addSuffix(std::string_view suffix, const std::shared_ptr<CContact>& contact) const;
 
     /**
      * Search contacts by query
      * @param query
      * @return
      */
-    [[nodiscard]] std::vector<std::shared_ptr<CContact>> search(std::string_view query) const;
+    [[nodiscard]] std::unordered_set<std::shared_ptr<CContact>> search(std::string_view query) const;
 
     /**
      * Collect contacts from node
      * @param node
      * @param results
      */
-    void collectContacts(const std::shared_ptr<CSuffixNode>& node, std::vector<std::shared_ptr<CContact>>& results) const;
+    void collectContacts(const std::shared_ptr<CSuffixNode>& node, std::unordered_set<std::shared_ptr<CContact>>& results) const;
 };
 
 #endif //SEMESTRAL2_CSUFFIXTREE_H
